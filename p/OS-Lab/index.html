@@ -1,0 +1,358 @@
+<!DOCTYPE html>
+<html lang=en>
+<head>
+    <!-- so meta -->
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="HandheldFriendly" content="True">
+    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1" />
+    <meta name="description" content="北航OS实验总结，关于具体实现可能说得会少一些，主要是对整体思路流程的梳理。 Lab2 - 内存管理各种常量、函数和宏定义的含义  BY2PG：一页的字节数，等于4096 PPN(x)&#x2F;VPN(x)：查询在第几页，即除以一页的大小 npage：物理页数 memsize：总物理内存的字节数 alloc(n, align, clear)：分配n字节的空间，并且以align字节对齐，clear表示是否清">
+<meta property="og:type" content="article">
+<meta property="og:title" content="OS实验汇总">
+<meta property="og:url" content="https://hany01rye.github.io/p/OS-Lab/index.html">
+<meta property="og:site_name" content="Hany01&#39;s Blog">
+<meta property="og:description" content="北航OS实验总结，关于具体实现可能说得会少一些，主要是对整体思路流程的梳理。 Lab2 - 内存管理各种常量、函数和宏定义的含义  BY2PG：一页的字节数，等于4096 PPN(x)&#x2F;VPN(x)：查询在第几页，即除以一页的大小 npage：物理页数 memsize：总物理内存的字节数 alloc(n, align, clear)：分配n字节的空间，并且以align字节对齐，clear表示是否清">
+<meta property="og:locale" content="en_US">
+<meta property="article:published_time" content="2023-04-04T12:36:50.000Z">
+<meta property="article:modified_time" content="2023-04-04T14:09:22.999Z">
+<meta property="article:author" content="Rye Han">
+<meta property="article:tag" content="OS">
+<meta name="twitter:card" content="summary">
+    
+    
+        
+          
+              <link rel="shortcut icon" href="/images/favicon.ico">
+          
+        
+        
+          
+            <link rel="icon" type="image/png" href="/images/favicon-192x192.png" sizes="192x192">
+          
+        
+        
+          
+            <link rel="apple-touch-icon" sizes="180x180" href="/images/apple-touch-icon.png">
+          
+        
+    
+    <!-- title -->
+    <title>OS实验汇总</title>
+    <!-- styles -->
+    
+<link rel="stylesheet" href="/css/style.css">
+
+    <!-- rss -->
+    
+    
+<meta name="generator" content="Hexo 5.4.2"></head>
+
+<body>
+    
+      <div id="header-post">
+  <a id="menu-icon" href="#"><i class="fa fa-bars fa-lg"></i></a>
+  <a id="menu-icon-tablet" href="#"><i class="fa fa-bars fa-lg"></i></a>
+  <a id="top-icon-tablet" href="#" onclick="$('html, body').animate({ scrollTop: 0 }, 'fast');" style="display:none;"><i class="fa fa-chevron-up fa-lg"></i></a>
+  <span id="menu">
+    <span id="nav">
+      <ul>
+         
+          <li><a href="/">Home</a></li>
+         
+          <li><a href="/about/">About</a></li>
+         
+          <li><a href="/archives/">Writing</a></li>
+         
+          <li><a target="_blank" rel="noopener" href="http://github.com/hany01rye">Projects</a></li>
+        
+      </ul>
+    </span>
+    <br/>
+    <span id="actions">
+      <ul>
+        
+        
+        <li><a class="icon" href="/p/power-sum/"><i class="fa fa-chevron-right" aria-hidden="true" onmouseover='$("#i-next").toggle();' onmouseout='$("#i-next").toggle();'></i></a></li>
+        
+        <li><a class="icon" href="#" onclick="$('html, body').animate({ scrollTop: 0 }, 'fast');"><i class="fa fa-chevron-up" aria-hidden="true" onmouseover='$("#i-top").toggle();' onmouseout='$("#i-top").toggle();'></i></a></li>
+        <li><a class="icon" href="#"><i class="fa fa-share-alt" aria-hidden="true" onmouseover='$("#i-share").toggle();' onmouseout='$("#i-share").toggle();' onclick='$("#share").toggle();return false;'></i></a></li>
+      </ul>
+      <span id="i-prev" class="info" style="display:none;">Previous post</span>
+      <span id="i-next" class="info" style="display:none;">Next post</span>
+      <span id="i-top" class="info" style="display:none;">Back to top</span>
+      <span id="i-share" class="info" style="display:none;">Share post</span>
+    </span>
+    <br/>
+    <div id="share" style="display: none">
+      <ul>
+  <li><a class="icon" target="_blank" rel="noopener" href="http://www.facebook.com/sharer.php?u=https://hany01rye.github.io/p/OS-Lab/"><i class="fa fa-facebook " aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="https://twitter.com/share?url=https://hany01rye.github.io/p/OS-Lab/&text=OS实验汇总"><i class="fa fa-twitter " aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="http://www.linkedin.com/shareArticle?url=https://hany01rye.github.io/p/OS-Lab/&title=OS实验汇总"><i class="fa fa-linkedin " aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="https://pinterest.com/pin/create/bookmarklet/?url=https://hany01rye.github.io/p/OS-Lab/&is_video=false&description=OS实验汇总"><i class="fa fa-pinterest " aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="mailto:?subject=OS实验汇总&body=Check out this article: https://hany01rye.github.io/p/OS-Lab/"><i class="fa fa-envelope " aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="https://getpocket.com/save?url=https://hany01rye.github.io/p/OS-Lab/&title=OS实验汇总"><i class="fa fa-get-pocket " aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="http://reddit.com/submit?url=https://hany01rye.github.io/p/OS-Lab/&title=OS实验汇总"><i class="fa fa-reddit " aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="http://www.stumbleupon.com/submit?url=https://hany01rye.github.io/p/OS-Lab/&title=OS实验汇总"><i class="fa fa-stumbleupon " aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="http://digg.com/submit?url=https://hany01rye.github.io/p/OS-Lab/&title=OS实验汇总"><i class="fa fa-digg " aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="http://www.tumblr.com/share/link?url=https://hany01rye.github.io/p/OS-Lab/&name=OS实验汇总&description="><i class="fa fa-tumblr " aria-hidden="true"></i></a></li>
+</ul>
+
+    </div>
+    <div id="toc">
+      <ol class="toc"><li class="toc-item toc-level-2"><a class="toc-link" href="#Lab2-%E5%86%85%E5%AD%98%E7%AE%A1%E7%90%86"><span class="toc-number">1.</span> <span class="toc-text">Lab2 - 内存管理</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#%E5%90%84%E7%A7%8D%E5%B8%B8%E9%87%8F%E3%80%81%E5%87%BD%E6%95%B0%E5%92%8C%E5%AE%8F%E5%AE%9A%E4%B9%89%E7%9A%84%E5%90%AB%E4%B9%89"><span class="toc-number">1.1.</span> <span class="toc-text">各种常量、函数和宏定义的含义</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E6%80%BB%E4%BD%93%E5%86%85%E5%AE%B9%E6%A2%B3%E7%90%86"><span class="toc-number">1.2.</span> <span class="toc-text">总体内容梳理</span></a><ol class="toc-child"><li class="toc-item toc-level-4"><a class="toc-link" href="#%E5%86%85%E6%A0%B8%E7%A8%8B%E5%BA%8F%E5%90%AF%E5%8A%A8"><span class="toc-number">1.2.1.</span> <span class="toc-text">内核程序启动</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#%E9%A1%B5%E7%AE%A1%E7%90%86"><span class="toc-number">1.2.2.</span> <span class="toc-text">页管理</span></a><ol class="toc-child"><li class="toc-item toc-level-5"><a class="toc-link" href="#Page%E7%9A%84%E7%BB%93%E6%9E%84"><span class="toc-number">1.2.2.1.</span> <span class="toc-text">Page的结构</span></a></li><li class="toc-item toc-level-5"><a class="toc-link" href="#%E7%AE%A1%E7%90%86%E6%96%B9%E5%BC%8F"><span class="toc-number">1.2.2.2.</span> <span class="toc-text">管理方式</span></a></li><li class="toc-item toc-level-5"><a class="toc-link" href="#%E5%9B%9E%E9%A1%BE%E4%B8%8A%E4%B8%80%E8%8A%82%E7%9A%84page-init"><span class="toc-number">1.2.2.3.</span> <span class="toc-text">回顾上一节的page_init</span></a></li><li class="toc-item toc-level-5"><a class="toc-link" href="#%E5%85%B3%E4%BA%8EPage%E7%AE%A1%E7%90%86%E7%9A%84%E5%85%B6%E5%AE%83%E5%87%BD%E6%95%B0"><span class="toc-number">1.2.2.4.</span> <span class="toc-text">关于Page管理的其它函数</span></a></li></ol></li></ol></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E9%A1%B5%E8%A1%A8%E7%9B%B8%E5%85%B3"><span class="toc-number">1.3.</span> <span class="toc-text">页表相关</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E4%B8%8D%E5%90%8C%E5%9C%B0%E5%9D%80%E7%9A%84%E5%8C%BA%E5%88%86%E4%B8%8E%E8%BD%AC%E5%8C%96"><span class="toc-number">1.4.</span> <span class="toc-text">不同地址的区分与转化</span></a><ol class="toc-child"><li class="toc-item toc-level-4"><a class="toc-link" href="#kseg0%E6%AE%B5"><span class="toc-number">1.4.1.</span> <span class="toc-text">kseg0段</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#kuseg%E6%AE%B5%EF%BC%88%E4%B8%A4%E7%BA%A7%E9%A1%B5%E8%A1%A8%EF%BC%89"><span class="toc-number">1.4.2.</span> <span class="toc-text">kuseg段（两级页表）</span></a></li></ol></li><li class="toc-item toc-level-3"><a class="toc-link" href="#TLB"><span class="toc-number">1.5.</span> <span class="toc-text">TLB</span></a><ol class="toc-child"><li class="toc-item toc-level-4"><a class="toc-link" href="#%E6%97%A7%E8%A1%A8%E9%A1%B9%E6%97%A0%E6%95%88%E5%8C%96"><span class="toc-number">1.5.1.</span> <span class="toc-text">旧表项无效化</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#TLB%E9%87%8D%E5%A1%AB"><span class="toc-number">1.5.2.</span> <span class="toc-text">TLB重填</span></a></li></ol></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#Lab3-%E8%BF%9B%E7%A8%8B%E4%B8%8E%E5%BC%82%E5%B8%B8"><span class="toc-number">2.</span> <span class="toc-text">Lab3 - 进程与异常</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#Lab4-%E7%B3%BB%E7%BB%9F%E8%B0%83%E7%94%A8%E4%B8%8E-fork"><span class="toc-number">3.</span> <span class="toc-text">Lab4 - 系统调用与 fork</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#Lab5-%E6%96%87%E4%BB%B6%E7%B3%BB%E7%BB%9F"><span class="toc-number">4.</span> <span class="toc-text">Lab5 - 文件系统</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#Lab6-%E7%AE%A1%E9%81%93%E5%92%8C%E5%91%BD%E4%BB%A4%E8%A7%A3%E9%87%8A%E7%A8%8B%E5%BA%8F"><span class="toc-number">5.</span> <span class="toc-text">Lab6 - 管道和命令解释程序</span></a></li></ol>
+    </div>
+  </span>
+</div>
+
+    
+    <div class="content index width mx-auto px2 my4">
+        
+        <article class="post" itemscope itemtype="http://schema.org/BlogPosting">
+  <header>
+    
+    <h1 class="posttitle" itemprop="name headline">
+        OS实验汇总
+    </h1>
+
+
+
+    <div class="meta">
+      <span class="author" itemprop="author" itemscope itemtype="http://schema.org/Person">
+        <span itemprop="name">Hany01's Blog</span>
+      </span>
+      
+    <div class="postdate">
+        <time datetime="2023-04-04T12:36:50.000Z" itemprop="datePublished">2023-04-04</time>
+    </div>
+
+
+      
+    <div class="article-tag">
+        <i class="fa fa-tag"></i>
+        <a class="tag-link-link" href="/tags/OS/" rel="tag">OS</a>
+    </div>
+
+
+    </div>
+  </header>
+  
+
+  <div class="content" itemprop="articleBody">
+    <p>北航OS实验总结，关于具体实现可能说得会少一些，主要是对整体思路流程的梳理。</p>
+<h2 id="Lab2-内存管理"><a href="#Lab2-内存管理" class="headerlink" title="Lab2 - 内存管理"></a>Lab2 - 内存管理</h2><h3 id="各种常量、函数和宏定义的含义"><a href="#各种常量、函数和宏定义的含义" class="headerlink" title="各种常量、函数和宏定义的含义"></a>各种常量、函数和宏定义的含义</h3><blockquote>
+<ul>
+<li><code>BY2PG</code>：一页的字节数，等于4096</li>
+<li><code>PPN(x)</code>/<code>VPN(x)</code>：查询在第几页，即除以一页的大小</li>
+<li><code>npage</code>：物理页数</li>
+<li><code>memsize</code>：总物理内存的字节数</li>
+<li><code>alloc(n, align, clear)</code>：分配<code>n</code>字节的空间，并且以<code>align</code>字节对齐，<code>clear</code>表示是否清零<ul>
+<li>函数中的<code>extern char end[];</code>是Lab1中<code>kernel.lds</code>中的<code>end</code>，对应虚拟地址<code>0x80400000</code>，对应的物理地址为<code>0x00400000</code>。我们管理的物理内存也就是<code>0x00400000</code>~<code>memsize-1</code></li>
+</ul>
+</li>
+<li><code>freemem</code>：物理内存分配到哪个地方了</li>
+<li><code>ULIM</code>：<code>0x80000000</code></li>
+<li><code>PADDR(kva)</code>：将内核的虚拟地址（<code>kseg0</code>）转化为物理地址，即减<code>ULIM</code></li>
+<li><code>KADDR(pa)</code>：将物理地址转化为内核的虚拟地址，即加<code>ULIM</code></li>
+<li><code>pages[0]</code>…<code>pages[npages-1]</code>：<code>Page</code>类型的页控制块（单个大小为12B）</li>
+<li><code>page2ppn(struct Page *pp)</code>：从<code>Page</code>指针到物理页数的转换，即这个指针是第几个<code>pages</code></li>
+<li><code>page2pa(struct Page *pp)</code>：从<code>Page</code>指针到物理地址的转换；实现方式为先用<code>page2ppn</code>得到这是第几个控制块/物理页，再将页数左移12位</li>
+<li><code>page2kva(struct Page *pp)</code>：从<code>Page</code>指针到内核虚拟地址的转换；实现方式为<code>KADDR(page2pa(pp))</code></li>
+<li><code>pa2page(u_long pa)</code>：查询地址<code>pa</code>所在页的<code>pages</code>指针</li>
+<li><p><code>ROUND(freemem, width)</code>：对齐</p>
+</li>
+<li><p><code>PDX(va)</code>：获取一级页表项偏移</p>
+</li>
+<li><code>DTX(va)</code>：获取二级页表项偏移</li>
+<li><code>PTE_ADDR(va)</code>：获取表项中的地址，即 将表项中的权限位 置零</li>
+<li><code>PTE_V</code>：有效位</li>
+<li><p><code>PTE_D</code>：可写位</p>
+</li>
+<li><p><code>asid</code>：Address Space IDentifier，⽤于区分不同的地址空间，同⼀虚拟地址在不同的地址空间中通常映射到不同的物理地址</p>
+</li>
+</ul>
+</blockquote>
+<h3 id="总体内容梳理"><a href="#总体内容梳理" class="headerlink" title="总体内容梳理"></a>总体内容梳理</h3><h4 id="内核程序启动"><a href="#内核程序启动" class="headerlink" title="内核程序启动"></a>内核程序启动</h4><ul>
+<li><p><code>mips_detect_memory()</code>：已经得到了物理内存的字节数<code>memsize</code>，除以物理页大小<code>BY2PG</code>得到页数<code>npage</code></p>
+</li>
+<li><p><code>mips_vm_init()</code>：通过<code>alloc()</code>分配<code>npage</code>个结构体<code>Page</code>的空间（注意这里分配的是管理结构的空间，不是页的空间）</p>
+<p><code>alloc(n, align, clear)</code>表示分配<code>n</code>字节、以<code>align</code>对齐、是否清零，它是<strong>基于<code>kseg0</code>段</strong>、用<code>memset</code>直接操作的</p>
+<p><code>freemem</code>存的是当前<strong>虚拟</strong>地址分配到什么位置了，最开始从<code>end</code>即虚拟内存<code>0x80400000</code>、物理内存<code>0x400000</code>开始分配</p>
+</li>
+<li><p><code>page_init()</code>：初始化<code>pages</code>数组和空闲链表</p>
+</li>
+</ul>
+<h4 id="页管理"><a href="#页管理" class="headerlink" title="页管理"></a>页管理</h4><h5 id="Page的结构"><a href="#Page的结构" class="headerlink" title="Page的结构"></a><code>Page</code>的结构</h5><figure class="highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line">Page &#123;</span><br><span class="line">	Page_LIST_entry_t &#123;</span><br><span class="line">		Page *le_next;</span><br><span class="line">		Page **le_prev;</span><br><span class="line">	&#125; pp_link;</span><br><span class="line">	u_short pp_ref;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p><code>Page_list</code>结构：</p>
+<figure class="highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">Page_list &#123;</span><br><span class="line">    Page* lh_first;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>需要注意的是，<strong><code>le_next</code>指向的是下一个<code>Page</code>，而<code>le_prev</code>指向的是上一个<code>Page</code>的<code>le_next</code></strong>。</p>
+<p><code>pp_ref</code>表示被引用了几次（也就是有多少个虚拟页映射到了这个物理页），如果引用次数为0就说明没有被占用。</p>
+<p><code>Page_list</code>仅包含一个<code>Page</code>指针，指向链表头。</p>
+<p>关于链表的各种操作的实现此处不再赘述，关于Exercise 2.2需要补写的<code>LIST_INSERT_AFTER</code>也并不难。</p>
+<h5 id="管理方式"><a href="#管理方式" class="headerlink" title="管理方式"></a>管理方式</h5><p><code>page_free_list</code>是空闲链表，存的是所有空闲的页控制块。</p>
+<ul>
+<li>需要分配内存时，将空闲链表头部的页控制块从链表取出并分配</li>
+<li>当某页的引用次数为0时，将页控制块插入空闲链表头部</li>
+</ul>
+<h5 id="回顾上一节的page-init"><a href="#回顾上一节的page-init" class="headerlink" title="回顾上一节的page_init"></a>回顾上一节的<code>page_init</code></h5><p>主要干了这么几件事：</p>
+<ul>
+<li><p>初始化<code>page_free_list</code></p>
+</li>
+<li><p>以按页面大小对齐后的<code>freemem</code>为界限</p>
+<p>前面是已经被内核和管理结构使用的物理页，需要指定它们的<code>pp_ref</code>为1</p>
+<p>后面是还未被使用的物理页，它们的<code>pp_ref</code>是0，并且需要被插入<code>page_free_list</code></p>
+</li>
+</ul>
+<h5 id="关于Page管理的其它函数"><a href="#关于Page管理的其它函数" class="headerlink" title="关于Page管理的其它函数"></a>关于<code>Page</code>管理的其它函数</h5><p><code>int page_alloc(Page **new)</code>：从空闲链表头部取出元素并分配（如果链表为空则报错），用<code>page2kva</code>获得该页管理的虚拟地址并清零。需要注意的是，这里并不需要修改<code>pp_ref</code>。</p>
+<p><code>void page_free(Page *pp)</code>：将<code>pp</code>插入空闲链表</p>
+<p><code>void page_decref(Page *pp)</code>：将<code>pp_ref</code>减一，如果减到0，就调用<code>page_free</code></p>
+<h3 id="页表相关"><a href="#页表相关" class="headerlink" title="页表相关"></a>页表相关</h3><p>页目录项类型名为<code>Pde</code>，页表项类型名为<code>Pte</code>，其本质都是<code>u_long</code></p>
+<p>函数中页目录的基地址一般叫<code>pgdir</code>，类型为<code>Pde*</code>，将<code>pgdir</code>加上<code>PDX(va)</code>即可得到所在的页目录项。在实现二级页表检索的函数<code>pgdir_walk</code>中，我们需要判断该目录项是否有效，根据要求判断是否需要调用<code>page_alloc</code>进行分配。接着通过页目录项<code>pgdir_entryp</code>找到对应页表<code>(Pte*)KADDR(PTE_ADDR(*pgdir_entryp))</code>（通过<code>KADDR</code>将物理地址转换成<code>kseg0</code>段的虚拟地址以便访问）</p>
+<p><code>page_lookup</code>：找到虚拟地址<code>va</code>的所在页，返回<code>Page*</code>，并将页表项存入<code>*ppte</code>；若<code>va</code>没有映射到任何页，则返回<code>NULL</code></p>
+<p><code>page_remove</code>：取消虚拟地址<code>va</code>对物理页的映射，调用<code>page_decref</code>，最后更新TLB表项（TLB相关内容将会在后文进行说明）</p>
+<p><code>page_insert</code>：将虚拟地址<code>va</code>映射到<code>pp</code>控制的物理页，并将权限设置为<code>perm</code>（判断以前已经存在映射，如果以前的映射不一样，那么<code>page_remove</code>后正常执行；否则调用<code>tlb_invalidate</code>并修改权限位后直接返回）</p>
+<h3 id="不同地址的区分与转化"><a href="#不同地址的区分与转化" class="headerlink" title="不同地址的区分与转化"></a>不同地址的区分与转化</h3><h4 id="kseg0段"><a href="#kseg0段" class="headerlink" title="kseg0段"></a><code>kseg0</code>段</h4><p><code>Page</code>-&gt;物理页号：看数组下标（指针相减）即可；物理页号-&gt;<code>Page</code>：取对应下标的数组；</p>
+<p>物理页号-&gt;物理地址：将页数左移12位；物理地址-&gt;物理页号：将页数右移12位；</p>
+<p>物理地址-&gt;虚拟地址：<code>+ULIM</code>；虚拟地址-&gt;物理地址：<code>-ULM</code>；</p>
+<p>我们实验中的物理内存大小为64MB，即<code>0x00000000</code>~<code>0x03999999</code>，对应的<code>kseg0</code>段上的虚拟地址是<code>0x80000000</code>~<code>0x83999999</code>（从<code>0x84000000</code>开始为“Invalide Memory”）</p>
+<p>我们在<strong>内核态</strong>对物理内存进行修改时，都是通过<code>kseg0</code>段处理的。</p>
+<h4 id="kuseg段（两级页表）"><a href="#kuseg段（两级页表）" class="headerlink" title="kuseg段（两级页表）"></a><code>kuseg</code>段（两级页表）</h4><ul>
+<li><p>虚拟地址：</p>
+<ul>
+<li>31-22位为一级页表项偏移量，通过<code>PDX(va)</code>获取</li>
+<li>21-12位为二级页表项偏移量，通过<code>PTX(va)</code>获取</li>
+<li>11-0位为页内偏移量</li>
+</ul>
+</li>
+<li><p>页表项：</p>
+<ul>
+<li>31-12位为物理页号</li>
+<li>11-0位为标志位，定义规范与<code>EntryLo</code>相同，除了有效位<code>PTE_V</code>和可写位<code>PTE_D</code>，其它位在本次Lab中不会涉及</li>
+</ul>
+<p>一个页表项为32位即4B，一页是4KB，故一级页目录中有1024个页表项，对应着1024个页表，每个页表占一页即4KB，故这些页表映射了4MB空间，对应用户空间的<code>0x7fc00000</code>~<code>0x7fffffff</code>。（<code>0x7fc00000</code>即<code>mmu.h</code>的地图中<code>UVPT</code>的位置；另外，图中<code>PDMAP</code>等于$4\times 1024\times 1024$，表示⼀个⼀级页表所映射的1024个⼆级⻚表的⼤⼩）</p>
+<p>在这个范围内，有1024个页表，对应着整个<code>0x00000000</code>~<code>0xffffffff</code>，而其中有一个页表映射的空间刚好是从<code>0x7fc00000</code>开始的，这个页表的编号是<code>0x7fc00000&gt;&gt;12</code>，而这个页表实际上就是页目录，对应着<code>0x7fc00000</code>~<code>0x7fffffff</code>范围内的所有页表项，这也就是页目录的自映射。</p>
+</li>
+</ul>
+<h3 id="TLB"><a href="#TLB" class="headerlink" title="TLB"></a>TLB</h3><p>CP0寄存器中的<code>EntryHi</code>和<code>EntryLo</code>分别对应着TLB的Key和Data：</p>
+<ul>
+<li><code>EntryHi</code>即TLB的Key：由VPN（Virtual Page Number）（20位，由页目录偏移和页表偏移组成）和ASID（Address Space IDentifier）（用于区分不同的地址空间）组成</li>
+<li><code>EntryLo</code>即TLB的Data：由PFN（Physical Frame Number）（20位，物理页框号）和各种有效位组成，<strong>和页表项的格式一致</strong></li>
+</ul>
+<h4 id="旧表项无效化"><a href="#旧表项无效化" class="headerlink" title="旧表项无效化"></a>旧表项无效化</h4><p><code>tlb_invalidate</code>：更新页表项时，需要调用它进行旧表项无效化；具体来说就是将旧表项的Key写入<code>EntryHi</code>并通过<code>tlbp</code>指令查找对应旧表项，若存在，则将其清零（在<code>EntryHi</code>和<code>EntryLo</code>中写0并调用<code>tlbwi</code>）</p>
+<h4 id="TLB重填"><a href="#TLB重填" class="headerlink" title="TLB重填"></a>TLB重填</h4><p><code>do_tlb_refill</code>：从<code>BadVAddr</code>中取出引发 TLB 缺失的虚拟地址，从<code>EntryHi</code>的 6~11 位取出当前进程的 ASID，根据虚拟地址和 ASID 查找页表，得到包含物理地址的页表项；将物理地址存入 <code>EntryLo</code>, 并执行<code>tlbwr</code>将此时的<code>EntryHi</code>与<code>EntryLo</code>写入到 TLB 中。</p>
+<h2 id="Lab3-进程与异常"><a href="#Lab3-进程与异常" class="headerlink" title="Lab3 - 进程与异常"></a>Lab3 - 进程与异常</h2><h2 id="Lab4-系统调用与-fork"><a href="#Lab4-系统调用与-fork" class="headerlink" title="Lab4 - 系统调用与 fork"></a>Lab4 - 系统调用与 fork</h2><h2 id="Lab5-文件系统"><a href="#Lab5-文件系统" class="headerlink" title="Lab5 - 文件系统"></a>Lab5 - 文件系统</h2><h2 id="Lab6-管道和命令解释程序"><a href="#Lab6-管道和命令解释程序" class="headerlink" title="Lab6 - 管道和命令解释程序"></a>Lab6 - 管道和命令解释程序</h2>
+  </div>
+</article>
+
+
+
+    </div>
+    
+      <div id="footer-post-container">
+  <div id="footer-post">
+
+    <div id="nav-footer" style="display: none">
+      <ul>
+         
+          <li><a href="/">Home</a></li>
+         
+          <li><a href="/about/">About</a></li>
+         
+          <li><a href="/archives/">Writing</a></li>
+         
+          <li><a target="_blank" rel="noopener" href="http://github.com/hany01rye">Projects</a></li>
+        
+      </ul>
+    </div>
+
+    <div id="toc-footer" style="display: none">
+      <ol class="toc"><li class="toc-item toc-level-2"><a class="toc-link" href="#Lab2-%E5%86%85%E5%AD%98%E7%AE%A1%E7%90%86"><span class="toc-number">1.</span> <span class="toc-text">Lab2 - 内存管理</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#%E5%90%84%E7%A7%8D%E5%B8%B8%E9%87%8F%E3%80%81%E5%87%BD%E6%95%B0%E5%92%8C%E5%AE%8F%E5%AE%9A%E4%B9%89%E7%9A%84%E5%90%AB%E4%B9%89"><span class="toc-number">1.1.</span> <span class="toc-text">各种常量、函数和宏定义的含义</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E6%80%BB%E4%BD%93%E5%86%85%E5%AE%B9%E6%A2%B3%E7%90%86"><span class="toc-number">1.2.</span> <span class="toc-text">总体内容梳理</span></a><ol class="toc-child"><li class="toc-item toc-level-4"><a class="toc-link" href="#%E5%86%85%E6%A0%B8%E7%A8%8B%E5%BA%8F%E5%90%AF%E5%8A%A8"><span class="toc-number">1.2.1.</span> <span class="toc-text">内核程序启动</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#%E9%A1%B5%E7%AE%A1%E7%90%86"><span class="toc-number">1.2.2.</span> <span class="toc-text">页管理</span></a><ol class="toc-child"><li class="toc-item toc-level-5"><a class="toc-link" href="#Page%E7%9A%84%E7%BB%93%E6%9E%84"><span class="toc-number">1.2.2.1.</span> <span class="toc-text">Page的结构</span></a></li><li class="toc-item toc-level-5"><a class="toc-link" href="#%E7%AE%A1%E7%90%86%E6%96%B9%E5%BC%8F"><span class="toc-number">1.2.2.2.</span> <span class="toc-text">管理方式</span></a></li><li class="toc-item toc-level-5"><a class="toc-link" href="#%E5%9B%9E%E9%A1%BE%E4%B8%8A%E4%B8%80%E8%8A%82%E7%9A%84page-init"><span class="toc-number">1.2.2.3.</span> <span class="toc-text">回顾上一节的page_init</span></a></li><li class="toc-item toc-level-5"><a class="toc-link" href="#%E5%85%B3%E4%BA%8EPage%E7%AE%A1%E7%90%86%E7%9A%84%E5%85%B6%E5%AE%83%E5%87%BD%E6%95%B0"><span class="toc-number">1.2.2.4.</span> <span class="toc-text">关于Page管理的其它函数</span></a></li></ol></li></ol></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E9%A1%B5%E8%A1%A8%E7%9B%B8%E5%85%B3"><span class="toc-number">1.3.</span> <span class="toc-text">页表相关</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E4%B8%8D%E5%90%8C%E5%9C%B0%E5%9D%80%E7%9A%84%E5%8C%BA%E5%88%86%E4%B8%8E%E8%BD%AC%E5%8C%96"><span class="toc-number">1.4.</span> <span class="toc-text">不同地址的区分与转化</span></a><ol class="toc-child"><li class="toc-item toc-level-4"><a class="toc-link" href="#kseg0%E6%AE%B5"><span class="toc-number">1.4.1.</span> <span class="toc-text">kseg0段</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#kuseg%E6%AE%B5%EF%BC%88%E4%B8%A4%E7%BA%A7%E9%A1%B5%E8%A1%A8%EF%BC%89"><span class="toc-number">1.4.2.</span> <span class="toc-text">kuseg段（两级页表）</span></a></li></ol></li><li class="toc-item toc-level-3"><a class="toc-link" href="#TLB"><span class="toc-number">1.5.</span> <span class="toc-text">TLB</span></a><ol class="toc-child"><li class="toc-item toc-level-4"><a class="toc-link" href="#%E6%97%A7%E8%A1%A8%E9%A1%B9%E6%97%A0%E6%95%88%E5%8C%96"><span class="toc-number">1.5.1.</span> <span class="toc-text">旧表项无效化</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#TLB%E9%87%8D%E5%A1%AB"><span class="toc-number">1.5.2.</span> <span class="toc-text">TLB重填</span></a></li></ol></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#Lab3-%E8%BF%9B%E7%A8%8B%E4%B8%8E%E5%BC%82%E5%B8%B8"><span class="toc-number">2.</span> <span class="toc-text">Lab3 - 进程与异常</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#Lab4-%E7%B3%BB%E7%BB%9F%E8%B0%83%E7%94%A8%E4%B8%8E-fork"><span class="toc-number">3.</span> <span class="toc-text">Lab4 - 系统调用与 fork</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#Lab5-%E6%96%87%E4%BB%B6%E7%B3%BB%E7%BB%9F"><span class="toc-number">4.</span> <span class="toc-text">Lab5 - 文件系统</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#Lab6-%E7%AE%A1%E9%81%93%E5%92%8C%E5%91%BD%E4%BB%A4%E8%A7%A3%E9%87%8A%E7%A8%8B%E5%BA%8F"><span class="toc-number">5.</span> <span class="toc-text">Lab6 - 管道和命令解释程序</span></a></li></ol>
+    </div>
+
+    <div id="share-footer" style="display: none">
+      <ul>
+  <li><a class="icon" target="_blank" rel="noopener" href="http://www.facebook.com/sharer.php?u=https://hany01rye.github.io/p/OS-Lab/"><i class="fa fa-facebook fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="https://twitter.com/share?url=https://hany01rye.github.io/p/OS-Lab/&text=OS实验汇总"><i class="fa fa-twitter fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="http://www.linkedin.com/shareArticle?url=https://hany01rye.github.io/p/OS-Lab/&title=OS实验汇总"><i class="fa fa-linkedin fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="https://pinterest.com/pin/create/bookmarklet/?url=https://hany01rye.github.io/p/OS-Lab/&is_video=false&description=OS实验汇总"><i class="fa fa-pinterest fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="mailto:?subject=OS实验汇总&body=Check out this article: https://hany01rye.github.io/p/OS-Lab/"><i class="fa fa-envelope fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="https://getpocket.com/save?url=https://hany01rye.github.io/p/OS-Lab/&title=OS实验汇总"><i class="fa fa-get-pocket fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="http://reddit.com/submit?url=https://hany01rye.github.io/p/OS-Lab/&title=OS实验汇总"><i class="fa fa-reddit fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="http://www.stumbleupon.com/submit?url=https://hany01rye.github.io/p/OS-Lab/&title=OS实验汇总"><i class="fa fa-stumbleupon fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="http://digg.com/submit?url=https://hany01rye.github.io/p/OS-Lab/&title=OS实验汇总"><i class="fa fa-digg fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="http://www.tumblr.com/share/link?url=https://hany01rye.github.io/p/OS-Lab/&name=OS实验汇总&description="><i class="fa fa-tumblr fa-lg" aria-hidden="true"></i></a></li>
+</ul>
+
+    </div>
+
+    <div id="actions-footer">
+      <ul>
+        <li id="toc"><a class="icon" href="#" onclick='$("#toc-footer").toggle();return false;'><i class="fa fa-list fa-lg" aria-hidden="true"></i> TOC</a></li>
+        <li id="share"><a class="icon" href="#" onclick='$("#share-footer").toggle();return false;'><i class="fa fa-share-alt fa-lg" aria-hidden="true"></i> Share</a></li>
+        <li id="top" style="display:none"><a class="icon" href="#" onclick="$('html, body').animate({ scrollTop: 0 }, 'fast');"><i class="fa fa-chevron-up fa-lg" aria-hidden="true"></i> Top</a></li>
+        <li id="menu"><a class="icon" href="#" onclick='$("#nav-footer").toggle();return false;'><i class="fa fa-bars fa-lg" aria-hidden="true"></i> Menu</a></li>
+      </ul>
+    </div>
+
+  </div>
+</div>
+
+    
+    <footer id="footer">
+  <div class="footer-left">
+    Copyright &copy; 2023 Rye Han
+  </div>
+  <div class="footer-right">
+    <nav>
+      <ul>
+         
+          <li><a href="/">Home</a></li>
+         
+          <li><a href="/about/">About</a></li>
+         
+          <li><a href="/archives/">Writing</a></li>
+         
+          <li><a target="_blank" rel="noopener" href="http://github.com/hany01rye">Projects</a></li>
+        
+      </ul>
+    </nav>
+  </div>
+</footer>
+
+</body>
+</html>
+<!-- styles -->
+
+<link rel="stylesheet" href="/lib/font-awesome/css/font-awesome.min.css">
+
+
+<link rel="stylesheet" href="/lib/meslo-LG/styles.css">
+
+
+<link rel="stylesheet" href="/lib/justified-gallery/justifiedGallery.min.css">
+
+
+
+<!-- jquery -->
+
+<script src="/lib/jquery/jquery.min.js"></script>
+
+
+<script src="/lib/justified-gallery/jquery.justifiedGallery.min.js"></script>
+
+
+<script src="/js/main.js"></script>
+
+<!-- Google Analytics -->
+
+    <script type="text/javascript">
+        (function(i,s,o,g,r,a,m) {i['GoogleAnalyticsObject']=r;i[r]=i[r]||function() {
+        (i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
+        m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
+        })(window,document,'script','//www.google-analytics.com/analytics.js','ga');
+        ga('create', 'UA-86660611-1', 'auto');
+        ga('send', 'pageview');
+    </script>
+
+<!-- Disqus Comments -->
+
+
