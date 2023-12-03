@@ -14,7 +14,7 @@
 <meta property="og:description" content="Min_25筛是一种优秀的求积性函数前缀和的方法, 时间复杂度$O\left(\frac{n^{\frac{3}{4}}}{\log}\right)$, 空间复杂度$O(\sqrt{n})$. 记号约定$p$一般表示一个质数, $L&#x3D;\sqrt{n}$,  $P$ 表示 $\le L $ 质数集, 其中 $P_i$ 表示第 $i$ 大的质数. 使用条件$f(p)$是一个低次多项式;  $f(p^x">
 <meta property="og:locale" content="en_US">
 <meta property="article:published_time" content="2022-12-30T14:31:47.000Z">
-<meta property="article:modified_time" content="2022-12-31T03:03:54.611Z">
+<meta property="article:modified_time" content="2023-04-07T12:43:17.804Z">
 <meta property="article:author" content="Rye Han">
 <meta property="article:tag" content="Algorithm">
 <meta property="article:tag" content="Math">
@@ -156,7 +156,7 @@
 g(n,j)=
 \begin{cases}
 g(n,j-1)&, P_j^2>n \\
-g(n,j-1) - f(P_j)\left[g\left(\lfloor\frac{n}{P_j}\rfloor,j-1\right) -g(P_j-1,j-1) \right] &, Otherwise
+g(n,j-1) - f(P_j)\left[g\left(\left\lfloor\frac{n}{P_j}\right\rfloor,j-1\right) -g(P_j-1,j-1) \right] &, Otherwise
 \end{cases}
 }</script><p>(上面的$f(P_j)$可以直接乘后面的部分是因为上面提到的我们是当做完全积性函数计算的)<br>边界$g(n,0)$即为自然数幂和.<br>可以直接递归求, 也可以求出所有的$\lfloor \frac{n}{i}\rfloor$, 直接离散后存在一维数组中(由于只会转移到更大的数, 所以一维就够了); 对于$g(P_j-1,j-1)$, 即小于$P_j$的所有质数的函数值, 可以直接预处理.</p>
 <p>如果要求所有质数的函数值, 那么答案就是$g(n,L)$.<strong>(因为$g(n,j)$的定义是关于最小质因子, 一个合数的最小质因子一定不大于$\sqrt{n}$)</strong></p>
