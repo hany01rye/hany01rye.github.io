@@ -6,15 +6,15 @@
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="HandheldFriendly" content="True">
     <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1" />
-    <meta name="description" content="Statement带标号仙人掌计数问题.（$n \le 131071$） Solution设$x$个点的仙人掌个数的生成函数为$C(x)$  对于与根相邻的块, 还是仙人掌, 生成函数为$C(x)$  包含根的环, 生成函数为$\sum_{i \ge 2}\frac{C(x)^i}{2}$   组合起来:  C(x) &#x3D; x \exp{\frac{2C(x)-C(x)^2}{2-2C(x)}}设$">
+    <meta name="description" content="Statement带标号仙人掌计数问题.（$n \le 131071$） Solution设仙人掌个数的生成函数为$C(x)$  对于与根相邻的块, 还是仙人掌, 生成函数为$C(x)$  包含根的环, 生成函数为$\sum_{i \ge 2}\frac{C(x)^i}{2}$   组合起来:  C(x) &#x3D; x \exp{\frac{2C(x)-C(x)^2}{2-2C(x)}}设$G(C(x)">
 <meta property="og:type" content="article">
 <meta property="og:title" content="【LOJ6569】仙人掌计数">
 <meta property="og:url" content="https://hany01rye.github.io/p/loj6569-cactuses-counting/index.html">
 <meta property="og:site_name" content="Hany01&#39;s Blog">
-<meta property="og:description" content="Statement带标号仙人掌计数问题.（$n \le 131071$） Solution设$x$个点的仙人掌个数的生成函数为$C(x)$  对于与根相邻的块, 还是仙人掌, 生成函数为$C(x)$  包含根的环, 生成函数为$\sum_{i \ge 2}\frac{C(x)^i}{2}$   组合起来:  C(x) &#x3D; x \exp{\frac{2C(x)-C(x)^2}{2-2C(x)}}设$">
+<meta property="og:description" content="Statement带标号仙人掌计数问题.（$n \le 131071$） Solution设仙人掌个数的生成函数为$C(x)$  对于与根相邻的块, 还是仙人掌, 生成函数为$C(x)$  包含根的环, 生成函数为$\sum_{i \ge 2}\frac{C(x)^i}{2}$   组合起来:  C(x) &#x3D; x \exp{\frac{2C(x)-C(x)^2}{2-2C(x)}}设$G(C(x)">
 <meta property="og:locale" content="en_US">
 <meta property="article:published_time" content="2022-12-30T14:35:47.000Z">
-<meta property="article:modified_time" content="2023-12-03T02:10:30.024Z">
+<meta property="article:modified_time" content="2023-12-03T02:28:18.171Z">
 <meta property="article:author" content="Rye Han">
 <meta property="article:tag" content="Algorithm">
 <meta property="article:tag" content="Math">
@@ -62,7 +62,7 @@
          
           <li><a href="/about/">About</a></li>
          
-          <li><a href="/archives/">Writing</a></li>
+          <li><a href="/archives/">Archives</a></li>
          
           <li><a target="_blank" rel="noopener" href="http://github.com/hany01rye">Projects</a></li>
         
@@ -142,7 +142,7 @@
 
   <div class="content" itemprop="articleBody">
     <h2 id="Statement"><a href="#Statement" class="headerlink" title="Statement"></a>Statement</h2><p>带标号仙人掌计数问题.（$n \le 131071$）</p>
-<h2 id="Solution"><a href="#Solution" class="headerlink" title="Solution"></a>Solution</h2><p>设$x$个点的仙人掌个数的生成函数为$C(x)$</p>
+<h2 id="Solution"><a href="#Solution" class="headerlink" title="Solution"></a>Solution</h2><p>设仙人掌个数的生成函数为$C(x)$</p>
 <ul>
 <li><p>对于与根相邻的块, 还是仙人掌, 生成函数为$C(x)$</p>
 </li>
@@ -190,7 +190,7 @@ C_1(x) &= C(x) - \frac{G(C(x))}{G'(C(x))} \\
          
           <li><a href="/about/">About</a></li>
          
-          <li><a href="/archives/">Writing</a></li>
+          <li><a href="/archives/">Archives</a></li>
          
           <li><a target="_blank" rel="noopener" href="http://github.com/hany01rye">Projects</a></li>
         
@@ -242,7 +242,7 @@ C_1(x) &= C(x) - \frac{G(C(x))}{G'(C(x))} \\
          
           <li><a href="/about/">About</a></li>
          
-          <li><a href="/archives/">Writing</a></li>
+          <li><a href="/archives/">Archives</a></li>
          
           <li><a target="_blank" rel="noopener" href="http://github.com/hany01rye">Projects</a></li>
         
@@ -251,21 +251,6 @@ C_1(x) &= C(x) - \frac{G(C(x))}{G'(C(x))} \\
   </div>
 </footer>
 
-<script type="text/x-mathjax-config">
-    MathJax.Hub.Config({
-        tex2jax: {
-            inlineMath: [ ["$","$"], ["\\(","\\)"] ],
-            skipTags: ['script', 'noscript', 'style', 'textarea', 'pre', 'code'],
-            processEscapes: true
-        }
-    });
-    MathJax.Hub.Queue(function() {
-        var all = MathJax.Hub.getAllJax();
-        for (var i = 0; i < all.length; ++i)
-            all[i].SourceElement().parentNode.className += ' has-jax';
-    });
-</script>
-<script src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.1/MathJax.js?config=TeX-MML-AM_CHTML"></script>
 </body>
 </html>
 <!-- styles -->
