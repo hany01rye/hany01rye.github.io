@@ -1,172 +1,483 @@
 <!DOCTYPE html>
-<html lang="en">
+<html>
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>TIGeR - Project Homepage</title>
-    <link rel="stylesheet" href="../styles.css">
-    <style>
-        .project-header {
-            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
-            color: white;
-            padding: 4rem 0;
-            text-align: center;
-        }
-        
-        .project-content {
-            max-width: 1200px;
-            margin: 0 auto;
-            padding: 2rem;
-        }
-        
-        .project-section {
-            margin: 3rem 0;
-        }
-        
-        .project-section h2 {
-            color: #333;
-            border-bottom: 2px solid #667eea;
-            padding-bottom: 0.5rem;
-        }
-        
-        .back-link {
-            display: inline-block;
-            margin-bottom: 2rem;
-            color: #667eea;
-            text-decoration: none;
-            font-weight: 500;
-        }
-        
-        .back-link:hover {
-            text-decoration: underline;
-        }
-        
-        .paper-info {
-            background: #f8f9fa;
-            padding: 1.5rem;
-            border-radius: 8px;
-            margin: 1rem 0;
-        }
-        
-        .paper-links {
-            margin-top: 1rem;
-        }
-        
-        .paper-links a {
-            display: inline-block;
-            margin-right: 1rem;
-            padding: 0.5rem 1rem;
-            background: #667eea;
-            color: white;
-            text-decoration: none;
-            border-radius: 4px;
-            transition: background 0.3s;
-        }
-        
-        .paper-links a:hover {
-            background: #5a6fd8;
-        }
-        
-        .abstract {
-            background: white;
-            padding: 1.5rem;
-            border-left: 4px solid #667eea;
-            margin: 1rem 0;
-        }
-        
-        .video-container {
-            position: relative;
-            width: 100%;
-            height: 0;
-            padding-bottom: 56.25%; /* 16:9 aspect ratio */
-            margin: 2rem 0;
-        }
-        
-        .video-container iframe {
-            position: absolute;
-            top: 0;
-            left: 0;
-            width: 100%;
-            height: 100%;
-            border: none;
-            border-radius: 8px;
-        }
-    </style>
+  <meta charset="utf-8">
+  <meta name="description"
+        content="Deformable Neural Radiance Fields creates free-viewpoint portraits (nerfies) from casually captured videos.">
+  <!-- <meta name="keywords" content="Nerfies, D-NeRF, NeRF"> -->
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>TIGeR: Tool-Integrated Geometric Reasoning in Vision-Language Models for Robotics</title>
+
+  <!-- Global site tag (gtag.js) - Google Analytics -->
+  <script async src="https://www.googletagmanager.com/gtag/js?id=G-PYVRSFMDRL"></script>
+  <script>
+    window.dataLayer = window.dataLayer || [];
+
+    function gtag() {
+      dataLayer.push(arguments);
+    }
+
+    gtag('js', new Date());
+
+    gtag('config', 'G-PYVRSFMDRL');
+  </script>
+
+  <link href="https://fonts.googleapis.com/css?family=Google+Sans|Noto+Sans|Castoro"
+        rel="stylesheet">
+
+  <link rel="stylesheet" href="./static/css/bulma.min.css">
+  <link rel="stylesheet" href="./static/css/bulma-carousel.min.css">
+  <link rel="stylesheet" href="./static/css/bulma-slider.min.css">
+  <link rel="stylesheet" href="./static/css/fontawesome.all.min.css">
+  <link rel="stylesheet"
+        href="https://cdn.jsdelivr.net/gh/jpswalsh/academicons@1/css/academicons.min.css">
+  <link rel="stylesheet" href="./static/css/index.css">
+  <link rel="icon" href="./static/images/tiger.jpg">
+
+  <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+  <script defer src="./static/js/fontawesome.all.min.js"></script>
+  <script src="./static/js/bulma-carousel.min.js"></script>
+  <script src="./static/js/bulma-slider.min.js"></script>
+  <script src="./static/js/index.js"></script>
 </head>
 <body>
-    <div class="project-header">
-        <div class="project-content">
-            <a href="../" class="back-link">← Back to Homepage</a>
-            <h1>TIGeR: Project Title</h1>
-            <p class="project-subtitle">Project subtitle or brief description</p>
+
+<nav class="navbar" role="navigation" aria-label="main navigation">
+  <div class="navbar-brand">
+    <a role="button" class="navbar-burger" aria-label="menu" aria-expanded="false">
+      <span aria-hidden="true"></span>
+      <span aria-hidden="true"></span>
+      <span aria-hidden="true"></span>
+    </a>
+  </div>
+</nav>
+
+
+<section class="hero">
+  <div class="hero-body">
+    <div class="container is-max-desktop">
+      <div class="columns is-centered">
+        <div class="column has-text-centered">
+          <h1 class="title is-2 publication-title">TIGeR: Tool-Integrated Geometric Reasoning in Vision-Language Models for Robotics</h1>
+          <div class="is-size-5 publication-authors">
+            <span class="author-block">
+              <a href="https://github.com/hany01rye">Yi Han</a><sup>1,2</sup>,</span>
+            <span class="author-block">
+              <a href="https://zhoues.github.io/">Enshen Zhou</a><sup>1,2</sup>,</span>
+            <span class="author-block">
+              <a href="https://chicheng123.github.io/">Cheng Chi</a><sup>2</sup>,
+            </span>
+            <span class="author-block">
+              <a href="https://rainfallsdown.github.io/">Shanyu Rong</a><sup>2,3</sup>,
+            </span>
+            <span class="author-block">
+              <a href="https://scholar.google.com/citations?user=gtoavQoAAAAJ">Jingkun An</a><sup>1</sup>,
+            </span>
+            <span class="author-block">
+              <a href="https://scholar.google.com/citations?user=2xR6P5AAAAAJ">Pengwei Wang</a><sup>2</sup>,
+            </span>
+            <span class="author-block">
+              <a href="https://scholar.google.com/citations?user=4XVJrRAAAAAJ">Zhongyuan Wang</a><sup>2</sup>,
+            </span>
+            <span class="author-block">
+              <a href="https://lucassheng.github.io/">Lu Sheng</a><sup>1&#9993;</sup>,
+            </span>
+            <span class="author-block">
+              <a href="https://www.shanghangzhang.com/">Shanghang Zhang</a><sup>2,3&#9993;</sup>
+            </span>
+          </div>
+
+          <div class="is-size-5 publication-authors">
+            <span class="author-block"><sup>1</sup>Beihang University,</span>
+            <span class="author-block"><sup>2</sup>Beijing Academy of Artificial Intellegence,</span>
+            <span class="author-block"><sup>3</sup>Peking University</span>
+          </div>
+
+          <div class="column has-text-centered">
+            <div class="publication-links">
+              <!-- PDF Link. -->
+              <span class="link-block">
+                <a href="https://arxiv.org/pdf/..."
+                   class="external-link button is-normal is-rounded is-dark">
+                  <span class="icon">
+                      <i class="fas fa-file-pdf"></i>
+                  </span>
+                  <span>Paper</span>
+                </a>
+              </span>
+              <span class="link-block">
+                <a href="https://arxiv.org/abs/..."
+                   class="external-link button is-normal is-rounded is-dark">
+                  <span class="icon">
+                      <i class="ai ai-arxiv"></i>
+                  </span>
+                  <span>arXiv</span>
+                </a>
+              </span>
+              <!-- Video Link. -->
+              <span class="link-block">
+                <a href="https://www.youtube.com/watch?v=..."
+                   class="external-link button is-normal is-rounded is-dark">
+                  <span class="icon">
+                      <i class="fab fa-youtube"></i>
+                  </span>
+                  <span>Video</span>
+                </a>
+              </span>
+              <!-- Code Link. -->
+              <span class="link-block">
+                <a href="https://github.com/..."
+                   class="external-link button is-normal is-rounded is-dark">
+                  <span class="icon">
+                      <i class="fab fa-github"></i>
+                  </span>
+                  <span>Code</span>
+                  </a>
+              </span>
+              <!-- <span class="link-block">
+                <a href="https://github.com/google/nerfies/releases/tag/0.1"
+                   class="external-link button is-normal is-rounded is-dark">
+                  <span class="icon">
+                      <i class="far fa-images"></i>
+                  </span>
+                  <span>Data</span>
+                  </a> -->
+            </div>
+
+          </div>
         </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<section class="hero teaser">
+  <div class="container is-max-desktop">
+    <div class="hero-body">
+      <div class="teaser-images-container">
+        <img src="./static/images/teasor/1.png" alt="TIGeR teaser image 1" class="teaser-image">
+        <img src="./static/images/teasor/2.png" alt="TIGeR teaser image 2" class="teaser-image">
+        <img src="./static/images/teasor/3.png" alt="TIGeR teaser image 3" class="teaser-image">
+      </div>
+      <h2 class="subtitle has-text-centered">
+        <!-- <span class="dnerf">TIGeR</span> enables tool-integrated geometric reasoning in vision-language models for robotics. -->
+        <span class="dnerf">TIGeR</span> equips vision-language models with tool-use capabilities to perform accurate geometric reasoning for robotics.
+      </h2>
+    </div>
+  </div>
+</section>
+
+
+<!-- <section class="hero is-light is-small">
+  <div class="hero-body">
+    <div class="container">
+      <div id="results-carousel" class="carousel results-carousel">
+        <div class="item item-steve">
+          <video poster="" id="steve" autoplay controls muted loop playsinline height="100%">
+            <source src="./static/videos/steve.mp4"
+                    type="video/mp4">
+          </video>
+        </div>
+        <div class="item item-chair-tp">
+          <video poster="" id="chair-tp" autoplay controls muted loop playsinline height="100%">
+            <source src="./static/videos/chair-tp.mp4"
+                    type="video/mp4">
+          </video>
+        </div>
+        <div class="item item-shiba">
+          <video poster="" id="shiba" autoplay controls muted loop playsinline height="100%">
+            <source src="./static/videos/shiba.mp4"
+                    type="video/mp4">
+          </video>
+        </div>
+        <div class="item item-fullbody">
+          <video poster="" id="fullbody" autoplay controls muted loop playsinline height="100%">
+            <source src="./static/videos/fullbody.mp4"
+                    type="video/mp4">
+          </video>
+        </div>
+        <div class="item item-blueshirt">
+          <video poster="" id="blueshirt" autoplay controls muted loop playsinline height="100%">
+            <source src="./static/videos/blueshirt.mp4"
+                    type="video/mp4">
+          </video>
+        </div>
+        <div class="item item-mask">
+          <video poster="" id="mask" autoplay controls muted loop playsinline height="100%">
+            <source src="./static/videos/mask.mp4"
+                    type="video/mp4">
+          </video>
+        </div>
+        <div class="item item-coffee">
+          <video poster="" id="coffee" autoplay controls muted loop playsinline height="100%">
+            <source src="./static/videos/coffee.mp4"
+                    type="video/mp4">
+          </video>
+        </div>
+        <div class="item item-toby">
+          <video poster="" id="toby" autoplay controls muted loop playsinline height="100%">
+            <source src="./static/videos/toby2.mp4"
+                    type="video/mp4">
+          </video>
+        </div>
+      </div>
+    </div>
+  </div>
+</section> -->
+
+
+<section class="section">
+  <div class="container is-max-desktop">
+    <!-- Abstract. -->
+    <div class="columns is-centered has-text-centered">
+      <div class="column is-four-fifths">
+        <h2 class="title is-3">Abstract</h2>
+        <div class="content has-text-justified">
+          <p>
+            Vision-Language Models (VLMs) have shown remarkable capabilities in spatial reasoning, yet they remain fundamentally limited to qualitative assessments and lack the computational precision required for real-world robotics. Current approaches fail to leverage metric information from depth sensors and camera calibration, instead reducing geometric problems to pattern recognition tasks that cannot deliver the centimeter-level accuracy essential for robotic manipulation.
+          </p>
+          <p>
+            We present TIGeR (Tool-Integrated Geometric Reasoning), a novel framework that transforms VLMs from perceptual estimators to geometric computers by enabling them to generate and execute precise geometric computations through external tools. Rather than attempting to internalize complex geometric operations within neural networks, TIGeR empowers models to recognize geometric reasoning requirements, synthesize appropriate computational code, and invoke specialized libraries for exact calculations.
+          </p>
+          <p>
+            To support this paradigm, we introduce TIGeR, a comprehensive tool-invocation–oriented dataset covering point transformations, pose estimation, trajectory generation, and spatial compatibility verification, complete with tool invocation sequences and intermediate computations. Through a two-stage training pipeline combining supervised fine-tuning (SFT) and reinforcement fine-tuning (RFT), TIGeR achieves state-of-the-art performance on geometric reasoning benchmarks while demonstrating centimeter-level precision in real-world robotic manipulation tasks.
+          </p>
+        </div>
+      </div>
+    </div>
+    <!--/ Abstract. -->
+
+    <!-- Paper video. -->
+    <!-- <div class="columns is-centered has-text-centered">
+      <div class="column is-four-fifths">
+        <h2 class="title is-3">Video</h2>
+        <div class="publication-video">
+          <iframe src="https://www.youtube.com/embed/MrKrnHhk8IA?rel=0&amp;showinfo=0"
+                  frameborder="0" allow="autoplay; encrypted-media" allowfullscreen></iframe>
+        </div>
+      </div>
+    </div> -->
+    <!--/ Paper video. -->
+  </div>
+</section>
+
+
+
+
+<section class="section">
+  <div class="container is-max-desktop">
+
+    <div class="columns is-centered">
+      <div class="column is-full-width">
+        <h2 class="title is-3">🛠️ Tool Lib</h1>
+      </div>
     </div>
 
-    <div class="project-content">
-        <div class="project-section">
-            <h2>Project Overview</h2>
-            <p>This is a detailed description of the TIGeR project. You can add project background, objectives, methodology, and other information here.</p>
-        </div>
+    <div class="columns is-centered">
 
-        <div class="project-section">
-            <h2>Paper Information</h2>
-            <div class="paper-info">
-                <h3>Paper Title</h3>
-                <p><strong>Authors:</strong> Your Name, Co-author Name</p>
-                <p><strong>Venue:</strong> Conference or Journal Name</p>
-                <p><strong>Year:</strong> 2025</p>
-                <div class="paper-links">
-                    <a href="#" target="_blank">Paper PDF</a>
-                    <a href="#" target="_blank">arXiv</a>
-                    <a href="#" target="_blank">Code</a>
-                    <a href="#" target="_blank">Demo Video</a>
-                </div>
+      <div class="column">
+        <div class="content">
+          <h3 class="title is-4">Visual Perception Tools</h2>
+          <p>
+            <ul>
+              <li>Get Camera Intrinsics</li>
+              <li>Get Camera Extrinsics</li>
+              <li>Get Pixel Depth</li>
+              <li>Get Object Segmentation</li>
+            </ul>
+          </p>
+        </div>
+      </div>
+
+      <div class="column">
+        <h3 class="title is-4">Geometric Computation Tools</h2>
+        <div class="columns is-centered">
+          <div class="column content">
+            <p>
+            <ul>
+              <li>Transform 2D Bounding Box to 3D Bounding Box</li>
+              <li>Transform 3D Position to 2D Position</li>
+              <li>Generate and run code based on requirements</li>
+            </ul>
+            </p>
+          </div>
+
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+
+<!-- Dataset Section -->
+<section class="section">
+  <div class="container is-max-desktop">
+    <div class="columns is-centered">
+      <div class="column is-full-width">
+        <h2 class="title is-3">🗃️ Data Preparation: TIGeR-300K</h2>
+        <div class="content has-text-justified">
+        </div>
+        
+        <!-- Dataset Images -->
+        <div class="columns is-centered">
+          <div class="column is-half">
+            <div class="content" style="border: 3px solid #8B5CF6; border-radius: 15px; padding: 20px; background-color: #F3F4F6; height: 100%; display: flex; flex-direction: column;">
+              <img src="./static/images/data_1.png" alt="TIGeR dataset visualization 1" class="teaser-image" style="width: 100%; max-width: 100%;">
+              <p class="has-text-centered">
+                Part I: Template-based QA Pairs
+              </p>
+              <p style="margin-top: 0px; flex-grow: 1;">
+                Starting from CA-1M, every 20th frame is cleaned and semantically relabeled with GroundingDINO, RAM and Florence-2, and high-IoU boxes are kept; camera intrinsics, extrinsics and depth maps are then combined with 3D scene graphs to instantiate modular templates that vary single/multi-view images, object properties, inter-object relations and output formats, producing 274K QA pairs complete with tool-invocation sequences and intermediate numerical computations.
+              </p>
             </div>
-        </div>
-
-        <div class="project-section">
-            <h2>Abstract</h2>
-            <div class="abstract">
-                <p>This is the abstract content of the paper. You can describe the research problem, methodology, experimental results, and contributions here.</p>
+          </div>
+          <div class="column is-half">
+            <div class="content" style="border: 3px solid #8B5CF6; border-radius: 15px; padding: 20px; background-color: #F3F4F6; height: 100%; display: flex; flex-direction: column;">
+              <img src="./static/images/data_2.png" alt="TIGeR dataset visualization 2" class="teaser-image" style="width: 100%; max-width: 100%;">
+              <p class="has-text-centered">
+                Part II: LLM-rewritten QA Pairs
+              </p>
+              <p style="margin-top: 0px; flex-grow: 1;">
+                GPT-4o filters SSR-CoT for spatial reasoning questions and rewrites each chain-of-thought into a tool-integrated narrative with explicit placeholders; MoGe-2, GeoCalib, SAM2 and π3 are invoked to return metric depth, camera poses, segmentation masks and gravity vectors, whose values are inserted into the corresponding placeholders, producing 35K diverse, adaptive examples with flexible, open-ended tool-call sequences.
+              </p>
             </div>
+          </div>
         </div>
-
-        <div class="project-section">
-            <h2>Demo Video</h2>
-            <div class="video-container">
-                <iframe src="https://www.youtube.com/embed/VIDEO_ID" 
-                        title="TIGeR Demo Video" 
-                        allowfullscreen>
-                </iframe>
+        
+        <!-- Additional Dataset Detail Image -->
+        <div class="columns is-centered" style="margin-top: 30px;">
+          <div class="column is-full-width">
+            <div class="content has-text-centered">
+              <img src="./static/images/data_detail.png" alt="TIGeR dataset detailed visualization" class="teaser-image" style="width: 100%; max-width: 100%;">
+              <p class="has-text-centered" style="margin-top: 15px;">
+                Details of Data Generation
+              </p>
             </div>
-            <p><em>Note: Please replace VIDEO_ID with the actual YouTube video ID</em></p>
+          </div>
         </div>
+      </div>
+    </div>
+  </div>
+</section>
 
-        <div class="project-section">
-            <h2>Methodology</h2>
-            <p>Here you can describe your methodology, algorithm design, technical details, etc.</p>
+
+
+<section class="section">
+  <div class="container is-max-desktop">
+    <div class="columns is-centered">
+      <div class="column is-full-width">
+        <h2 class="title is-3">🤖 Learning to Invoke Tools: Two-Stage Training</h2>
+        <div class="content has-text-centered">
+          <img src="./static/images/train.png" alt="TIGeR training pipeline" class="teaser-image" style="width: 100%; max-width: 100%;">
+          <p class="has-text-justified">
+            We build on GLM-4.1V-Thinking and introduce tool-integrated geometric reasoning for robotics via a two-stage training pipeline: <b>1) Supervised Fine-Tuning (SFT) </b>and <b>2) Reinforcement Fine-Tuning (RFT)</b>. SFT imparts basic tool-use reasoning capabili- ties, while RFT refines them through reward signals focused on geometric computation accuracy and effective tool use.
+          </p>
         </div>
+      </div> 
+    </div>
+  </div>
+</section>
 
-        <div class="project-section">
-            <h2>Experimental Results</h2>
-            <p>Here you can showcase experimental results, performance metrics, comparative analysis, etc.</p>
+
+<!-- Experiments Section -->
+<section class="section">
+  <div class="container is-max-desktop">
+    <div class="columns is-centered">
+      <div class="column is-full-width">
+        <h2 class="title is-3">📊 Evaluation on Spatial Understanding Benchmarks</h2>
+        <div class="content">
+          <img src="./static/images/bench.png" alt="TIGeR benchmark evaluation results" class="teaser-image" style="width: 100%; max-width: 100%;">
+          <p style="margin-top: 15px;">
+            Performance comparison on spatial understanding benchmarks across different models. Since these benchmarks lack ground-truth geometric annotations (e.g., camera intrinsics, extrinsics, and depth), we leverage visual foundation models to extract such information and inject approximate geometric priors into Tool-Integrated Reasoning at inference.
+          </p>
         </div>
+      </div>
+    </div>
+  </div>
+</section>
 
-        <div class="project-section">
-            <h2>Citation</h2>
-            <div class="paper-info">
-                <pre><code>@article{your2025tiger,
-  title={TIGeR: Paper Title},
-  author={Your Name and Co-author},
-  journal={Conference or Journal Name},
-  year={2025}
+
+<!-- Experiments Section -->
+<section class="section">
+  <div class="container is-max-desktop">
+    <div class="columns is-centered">
+      <div class="column is-full-width">
+        <h2 class="title is-3">🦾 Real-world Experiments</h2>
+        <div class="content has-text-centered">
+          <!-- First row: 3 videos -->
+          <div class="columns is-centered" style="margin-bottom: 20px;">
+            <div class="column is-one-third">
+              <video poster="" id="demo1" autoplay controls muted loop playsinline style="width: 100%; height: 200px; object-fit: cover;">
+                <source src="./static/videos/demo1.mp4" type="video/mp4">
+              </video>
+            </div>
+            <div class="column is-one-third">
+              <video poster="" id="demo2" autoplay controls muted loop playsinline style="width: 100%; height: 200px; object-fit: cover;">
+                <source src="./static/videos/demo2.mp4" type="video/mp4">
+              </video>
+            </div>
+            <div class="column is-one-third">
+              <video poster="" id="demo3" autoplay controls muted loop playsinline style="width: 100%; height: 200px; object-fit: cover;">
+                <source src="./static/videos/demo3.mp4" type="video/mp4">
+              </video>
+            </div>
+          </div>
+          
+          <!-- Second row: 2 videos centered -->
+          <div class="columns is-centered">
+            <div class="column is-one-third">
+              <video poster="" id="demo4" autoplay controls muted loop playsinline style="width: 100%; height: 200px; object-fit: cover;">
+                <source src="./static/videos/demo4.mp4" type="video/mp4">
+              </video>
+            </div>
+            <div class="column is-one-third">
+              <video poster="" id="demo5" autoplay controls muted loop playsinline style="width: 100%; height: 200px; object-fit: cover;">
+                <source src="./static/videos/demo5.mp4" type="video/mp4">
+              </video>
+            </div>
+          </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<section class="section" id="BibTeX">
+  <div class="container is-max-desktop content">
+    <h2 class="title">🔗 BibTeX</h2>
+    <pre><code>@article{han2025tiger,
+  author    = {...},
+  title     = {TIGeR: Tool-Integrated Geometric Reasoning in Vision-Language Models for Robotics},
+  journal   = {...},
+  year      = {2025},
 }</code></pre>
-            </div>
-        </div>
-    </div>
+  </div>
+</section>
 
-    <footer>
-        <p>&copy; 2025 My Academic Homepage. All rights reserved.</p>
-    </footer>
+
+<footer class="footer">
+  <div class="container">
+    <!-- <div class="content has-text-centered">
+      <a class="icon-link"
+         href="./static/videos/nerfies_paper.pdf">
+        <i class="fas fa-file-pdf"></i>
+      </a>
+      <a class="icon-link" href="https://github.com/keunhong" class="external-link" disabled>
+        <i class="fab fa-github"></i>
+      </a>
+    </div> -->
+    <div class="columns is-centered">
+      <div class="column is-8">
+        <div class="content">
+          <p>
+            This website is adapted from <a rel="license" href="https://github.com/nerfies/nerfies.github.io">Nerfies</a>, licensed under a <a rel="license"
+                                                href="http://creativecommons.org/licenses/by-sa/4.0/">Creative
+            Commons Attribution-ShareAlike 4.0 International License</a>.
+          </p>
+        </div>
+      </div>
+    </div>
+  </div>
+</footer>
+
 </body>
 </html>
